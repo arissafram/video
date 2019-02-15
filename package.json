@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "concurrently": "^4.1.0",
+    "node-sass-chokidar": "^1.3.4",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "video.js": "^7.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently -n 'React,SASS' -c 'yellow,blue' --kill-others 'react-scripts start' 'npm run watch-css'",
+    "build-css": "node-sass-chokidar src/styles/main.scss -o src/styles",
+    "watch-css": "npm run build-css && node-sass-chokidar src/styles/main.scss -o src/styles/ --output-style compressed --watch --recursive",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
