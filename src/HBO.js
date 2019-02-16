@@ -7,11 +7,29 @@ export default class HBOPlayer extends Component {
   componentDidMount() {
 
     videojs.hook('beforesetup', () => {
+
+      let Button = videojs.getComponent('Button');
+      let MyButton = videojs.extend(Button, {
+        constructor: function() {
+          Button.apply(this, arguments);
+          this.controlText = "mybutton"
+        },
+        handleClick: function() {
+          this.player_.currentTime(this.player_.currentTime() - 10)
+        },
+        buildCSSClass: function() {
+          return "vjs-icon-skip-back vjs-control vjs-button";
+         }
+      })
+      videojs.registerComponent('MyButton', MyButton);    
+      console.log(MyButton)
+
       videojs.getComponent('ControlBar').prototype.options_ = {
         loadEvent: 'ready',
         children: [
           'progressControl',
           'playToggle',
+          'myButton',
           'currentTimeDisplay',
           'remainingTimeDisplay',
           'muteToggle',
@@ -20,6 +38,7 @@ export default class HBOPlayer extends Component {
           'fullscreenToggle'
         ]
       }
+      return {}
     })
 
     this.player = videojs(this.videoNode, this.props, () => console.log('player ready:', this))
@@ -30,17 +49,6 @@ export default class HBOPlayer extends Component {
       // this.autoPlayWithSound()
       this.player.volume(0)
     })
-
-    // NOTE: re-ordering btns - https://github.com/videojs/video.js/issues/2673
-  //   videojs.getComponent('ControlBar').prototype.options_ = {
-  //     loadEvent: 'ready',
-  //     children: [
-  //       'muteToggle',
-  //       'playToggle',
-  //       'volumeControl',
-  //       'fullscreenToggle'
-  //     ]
-  //   }
   }
 
   comoponentWillUnmount() {
