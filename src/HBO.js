@@ -7,7 +7,6 @@ export default class HBOPlayer extends Component {
   componentDidMount() {
 
     videojs.hook('beforesetup', () => {
-
       let Button = videojs.getComponent('Button');
       let MyButton = videojs.extend(Button, {
         constructor: function() {
@@ -32,23 +31,34 @@ export default class HBOPlayer extends Component {
           'myButton',
           'currentTimeDisplay',
           'remainingTimeDisplay',
-          'muteToggle',
-          'volumeControl',
+          'volumePanel',
           'subsCapsButton',
-          'fullscreenToggle'
+          'fullscreenToggle',
         ]
       }
       return {}
     })
 
-    this.player = videojs(this.videoNode, this.props, () => console.log('player ready:', this))
+    this.options = {
+      controlBar: {
+        volumePanel: {
+          inline: false,
+          vertical: true
+        }
+      }
+    }
 
+    this.player = videojs(this.videoNode, this.options)
     window.player = this.player
 
     this.player.on('ready', () => {
       // this.autoPlayWithSound()
       this.player.volume(0)
     })
+
+    // this.player.controlBar.volumePanel.muteToggle.on('click', () => {
+    //   this.player.controlBar.volumePanel.toggleClass('vjs-lock-showing')
+    // })
   }
 
   comoponentWillUnmount() {

@@ -15,11 +15,13 @@
   // CONTROL BAR:
   .vjs-control-bar {
     height: 30px;
+    
+    .vjs-button {
+      opacity: .6;
 
-    .vjs-control {
-      display: flex;
-      flex: 1;
-      max-width: 30px;
+      &:hover {
+        opacity: 1;
+      }
     }
     .vjs-progress-control {
       position: absolute;
@@ -55,6 +57,9 @@
         color: lightblue;
       }
     }
+    .vjs-time-control {
+      padding: 0;
+    }
     .vjs-current-time {
       display: block;
 
@@ -63,36 +68,51 @@
         content: "/"
       }
     }
-  }
-  
-  // VOLUME:
-  .vjs-mute-control {
-    flex:2;
-    // border: 1px solid limegreen;
-    max-width: none !important;
-    justify-content: flex-end;
-    
-    .vjs-icon-placeholder::before {
-      width: 30px;
-      position: relative;
-      right: 0px;
-      margin: 0;
-      padding: 0;
+
+
+    // VOLUME:
+    .vjs-volume-panel {
+      position: absolute;
+      right: 30px;
+
+      &:active, &:hover {
+        .vjs-button {
+          opacity: 1;
+        }
+      }
+      .vjs-volume-vertical {
+        transition: none;
+      }
+      .vjs-icon-placeholder::before {
+        width: 30px;
+        position: relative;
+        right: 0px;
+        margin: 0;
+        padding: 0;
+      }
+      .vjs-volume-horizontal {
+        transition: none,
+      }
+      .vjs-volume-control {
+        border: 1px solid blue;
+      }
     }
-  }
 
-  // GO BACK 10 SECONDS BTN:
-  .vjs-icon-skip-back {
-    border: 1px solid limegreen;
 
-    .vjs-icon-skip-back::before {
-      content: "\f11f"; 
+    // SKIP BACK:
+    .vjs-icon-skip-back {
+      border: 1px solid limegreen;
+
+      .vjs-icon-skip-back::before {
+        // content: "\f11f"; 
+      }
     }
-  }
 
-  // FULLSCREEN:
-  .vjs-fullscreen-control {
-    position: absolute;
-    right: 0;
+
+    // FULLSCREEN:
+    .vjs-fullscreen-control {
+      position: absolute;
+      right: 0;
+    }
   }
 }
