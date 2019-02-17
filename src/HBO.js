@@ -8,27 +8,26 @@ export default class HBOPlayer extends Component {
 
     videojs.hook('beforesetup', () => {
       let Button = videojs.getComponent('Button');
-      let MyButton = videojs.extend(Button, {
+      var skipBackButton = videojs.extend(Button, {
         constructor: function() {
           Button.apply(this, arguments);
-          this.controlText = "mybutton"
         },
         handleClick: function() {
           this.player_.currentTime(this.player_.currentTime() - 10)
         },
         buildCSSClass: function() {
           return "vjs-icon-skip-back vjs-control vjs-button";
-         }
+         },
       })
-      videojs.registerComponent('MyButton', MyButton);    
-      console.log(MyButton)
+
+      videojs.registerComponent('skipBackButton', skipBackButton);    
 
       videojs.getComponent('ControlBar').prototype.options_ = {
         loadEvent: 'ready',
         children: [
           'progressControl',
           'playToggle',
-          'myButton',
+          'SkipBackButton',
           'currentTimeDisplay',
           'remainingTimeDisplay',
           'volumePanel',
@@ -51,14 +50,13 @@ export default class HBOPlayer extends Component {
     this.player = videojs(this.videoNode, this.options)
     window.player = this.player
 
-    this.player.on('ready', () => {
-      // this.autoPlayWithSound()
-      this.player.volume(0)
-    })
+    // lock volume panel in open position
+    this.player.controlBar.volumePanel.muteToggle.on('click', () => {
+      this.player.controlBar.volumePanel.volumeControl.toggleClass('vjs-slider-active')
+      this.player.controlBar.volumePanel.volumeControl.el_.style.opacity = ""
 
-    // this.player.controlBar.volumePanel.muteToggle.on('click', () => {
-    //   this.player.controlBar.volumePanel.toggleClass('vjs-lock-showing')
-    // })
+      this.player.muted(false)
+    })
   }
 
   comoponentWillUnmount() {
@@ -81,15 +79,18 @@ export default class HBOPlayer extends Component {
   
   render() {
     return (
-      <div data-vjs-player>
-        <video 
-          ref={ref => this.videoNode = ref}
-          controls
-          poster="//vjs.zencdn.net/v/oceans.png"
-          className="videoNode video-js vjs-16-9 vjs-hbo">
-            <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-        </video>
-        <ul>
+      <div>
+        <div data-vjs-player>
+          <video
+            style={{maxWidth: "400px", height: "200px"}}
+            ref={ref => this.videoNode = ref}
+            controls
+            poster="//vjs.zencdn.net/v/oceans.png"
+            className="videoNode video-js vjs-hbo">
+              <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+          </video>
+        </div>
+        {/* <ul>
           <li>progress bar - position, color, hover</li>
           <li>rewind 10 seconds btn</li>
           <li>time remaining/elapsed</li>
@@ -97,7 +98,7 @@ export default class HBOPlayer extends Component {
           <li>play button in bottom left corner</li>
           <li>volume - right side, panel is vertical, colors</li>
           <li>animated play/pause on video click</li>
-        </ul>
+        </ul> */}
       </div>
     )
   }
