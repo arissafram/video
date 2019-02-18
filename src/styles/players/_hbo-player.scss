@@ -78,6 +78,12 @@
       position: absolute;
       right: 40px;
 
+      &:hover {
+        .vjs-volume-control {
+          opacity: 0;
+        }
+      }
+
       .vjs-volume-vertical {
         transition: none;
       }
@@ -92,7 +98,6 @@
         transition: none,
       }
       .vjs-volume-control {
-        border: 1px solid red;
         margin: 0 0 0 5px;
         padding: 0px;
         width: 20px;
