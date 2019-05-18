@@ -51,16 +51,15 @@ export default class HBOPlayer extends Component {
     window.player = this.player
 
     // lock volume panel in open position
-    this.player.controlBar.volumePanel.muteToggle.on('click', () => {
+    this.player.controlBar.volumePanel.muteToggle.on('click', (e) => {
+      console.log(e.target)
       this.player.controlBar.volumePanel.volumeControl.toggleClass('vjs-slider-active')
       this.player.muted(false)
-
+      
       if (this.player.controlBar.volumePanel.volumeControl.hasClass('vjs-slider-active')) {
-        this.player.controlBar.volumePanel.volumeControl.el_.style.opacity = "1"
-        this.player.controlBar.volumePanel.muteToggle.el_.style.opacity = "1"
+        this.player.controlBar.volumePanel.volumeControl.el_.style.display = "block"
       } else {
-        this.player.controlBar.volumePanel.volumeControl.el_.style.opacity = "0"
-        this.player.controlBar.volumePanel.muteToggle.el_.style.opacity = ""
+        this.player.controlBar.volumePanel.volumeControl.el_.style.display = ""
       }
     })
 
